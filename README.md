@@ -13,6 +13,7 @@
      连接微信应用以使用相关功能，此应用需要引用WeChatConnection.framework和微信官方SDK
      http://open.weixin.qq.com上注册应用，并将相关信息填写以下字段
      **/
+    
     //    [ShareSDK connectWeChatWithAppId:@"wx4868b35061f87885" wechatCls:[WXApi class]];
     [ShareSDK connectWeChatWithAppId:@"wxa6cb25669b7a1894"
                            appSecret:@"d4624c36b6795d1d99dcf0547af5443d"
@@ -51,17 +52,24 @@
 + (void)wxPay{
     NSString *urlString   = @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php?plat=ios";
     //解析服务端返回json数据
+
     NSError *error;
     //加载一个NSURL对象
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+   
     //将请求的url数据放到NSData对象中
     NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    
     if ( response != nil) {
+     
         NSMutableDictionary *dict = NULL;
+       
         //IOS5自带解析类NSJSONSerialization从response中解析出数据放到字典中
         dict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
         NSLog(@"url:%@",urlString);
+       
         NSMutableString *retcode = [dict objectForKey:@"retcode"];
+       
         if (retcode.intValue == 0){
             NSMutableString *stamp  = [dict objectForKey:@"timestamp"];
             PayReq* req             = [[PayReq alloc] init];
@@ -77,7 +85,9 @@
             }else{
                 NSLog(@"nono");
             }
+         
             NSLog(@"appid=%@\npartid=%@\nprepayid=%@\nnoncestr=%@\ntimestamp=%ld\npackage=%@\nsign=%@",[dict objectForKey:@"appid"],req.partnerId,req.prepayId,req.nonceStr,(long)req.timeStamp,req.package,req.sign );
+        
         }
     }
 }
