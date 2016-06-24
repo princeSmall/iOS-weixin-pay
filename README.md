@@ -23,7 +23,9 @@
 //调起微信支付
 -(void) onResp:(BaseResp*)resp
 {
+
     if([resp isKindOfClass:[PayResp class]]){
+
         //支付返回结果，实际支付结果需要去微信服务器端查询
         switch (resp.errCode) {
             case WXSuccess:{
@@ -50,10 +52,12 @@
 
 
 + (void)wxPay{
-    NSString *urlString   = @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php?plat=ios";
-    //解析服务端返回json数据
 
+    NSString *urlString   = @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php?plat=ios";
+   
+ //解析服务端返回json数据
     NSError *error;
+   
     //加载一个NSURL对象
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
    
@@ -66,6 +70,7 @@
        
         //IOS5自带解析类NSJSONSerialization从response中解析出数据放到字典中
         dict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
+       
         NSLog(@"url:%@",urlString);
        
         NSMutableString *retcode = [dict objectForKey:@"retcode"];
